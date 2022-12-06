@@ -261,32 +261,18 @@ Along with the Euler-angle representation, I will consider the Cartesian
 coordinates of the center of mass of the drone as generalized
 coordinates to represent translations of the body frame:
 
-::: flalign
-=
-
-::: pmatrix
-x & y & z
-:::
-
-\^T , =
-
-::: pmatrix
-& &
-:::
-
-\^T
-:::
+$$\begin{aligned}
+    \boldsymbol{\xi}=  \begin{pmatrix} x & y & z \end{pmatrix}^T
+    , \quad
+    \dot{\boldsymbol{\xi}} =  \begin{pmatrix} \dot{x} & \dot{y} & \dot{z} \end{pmatrix}^T
+\end{aligned}$$
 
 Thus, the following generalized coordinates together define a
 6-degree-of-freedom dynamical system with the state $\boldsymbol{q}$:
 
-::: flalign
-=
-
-::: pmatrix
-\
-:::
-:::
+$$\begin{aligned}
+    \boldsymbol{q}= \begin{pmatrix} \boldsymbol{\xi}\\ \boldsymbol{\eta}\end{pmatrix}
+\end{aligned}$$
 
 # Dynamics
 
@@ -294,33 +280,45 @@ Thus, the following generalized coordinates together define a
 
 The Lagrangian $L$ is defined as:
 
-::: flalign
-L (, ) & = T - V
-:::
+$$\begin{aligned}
+    L (\boldsymbol{q}, \dot{\boldsymbol{q}}) & = T - V 
+\end{aligned}$$
 
 This system is nearly identical to rigid body free rotation; however the
 Lagrangian has nonzero potential energy since the quadcopter is subject
 to gravity. As we have shown in class, the kinetic energy in this case
 is the same as in free rigid body rotation:
 
-::: flalign
-T & = \_ + \_\
-& = \^T \_J () + m \^T\
-& = \^T J() + m \^T
-:::
+$$\begin{aligned}
+    T & = 
+    \underbrace{\frac{1}{2}\boldsymbol{\Omega}^T I \boldsymbol{\Omega}}
+    _{\substack{\text{Rotational kinetic} \\ \text{energy}}} + 
+    \underbrace{\frac{1}{2}m \dot{\boldsymbol{\xi}}^T \dot{\boldsymbol{\xi}}}
+    _{\substack{\text{Translational kinetic} \\ \text{energy}}} \\ 
+    & = 
+    \frac{1}{2}\dot{\boldsymbol{\eta}}^T \underbrace{W_{\boldsymbol{\eta}}^T I W_{\boldsymbol{\eta}}}
+    _{\equiv J (\boldsymbol{\eta})} \dot{\boldsymbol{\eta}} +
+    \frac{1}{2}m \dot{\boldsymbol{\xi}}^T \dot{\boldsymbol{\xi}} \\
+    & =
+    \frac{1}{2}\dot{\boldsymbol{\eta}}^T J(\boldsymbol{\eta}) \dot{\boldsymbol{\eta}} +
+    \frac{1}{2}m \dot{\boldsymbol{\xi}}^T \dot{\boldsymbol{\xi}}
+\end{aligned}$$
 
 And the potential energy can be determined from these coordinates in the
 standard way using the gravitational potential:
 
-::: flalign
-V & = m g z = m g (\|e\_3)
-:::
+$$\begin{aligned}
+    V & = m g z = m g (\boldsymbol{\xi}\cdot \bar{e}_3)
+\end{aligned}$$
 
 Thus, the entire Lagrangian is given by:
 
-::: flalign
-L(, ) & = \^T J() + m \^T - m g (\|e\_3)
-:::
+$$\begin{aligned}
+    L(\boldsymbol{q}, \dot{\boldsymbol{q}}) & = 
+    \frac{1}{2}\dot{\boldsymbol{\eta}}^T J(\boldsymbol{\eta}) \dot{\boldsymbol{\eta}} +
+    \frac{1}{2}m \dot{\boldsymbol{\xi}}^T \dot{\boldsymbol{\xi}} -
+    m g (\boldsymbol{\xi}\cdot \bar{e}_3)
+\end{aligned}$$
 
 ## Translations
 
@@ -343,24 +341,31 @@ These results lead to the following equation of motion for the
 translation dynamics of the quadcopter using the Euler-Lagrange
 Equation:
 
-::: flalign
-\- & =\
-m + m g \|e\_3 & =\
-& = ( - mg \|e\_3 )
-:::
+$$\begin{aligned}
+    \frac{d }{d t}\frac{\partial L}{\partial \dot{\boldsymbol{\xi}}} - \frac{\partial L}{\partial \boldsymbol{\xi}} & = \boldsymbol{f}\\
+    m \ddot{\boldsymbol{\xi}} + m g \bar{e}_3 & = \boldsymbol{f}\\
+    \ddot{\boldsymbol{\xi}} & = \frac{1}{m} \left( \boldsymbol{f}- mg \bar{e}_3 \right)
+\end{aligned}$$
 
 ## Rotations
 
 The derivatives of $L(\boldsymbol{\eta}, \dot{\boldsymbol{\eta}})$,
 however, are more difficult to determine as they are higher-dimensional:
 
-::: flalign
-& = ( \^T J ) []{#eqn:dldeta label="eqn:dldeta"}\
-& = ( \^T J ) = ( J )\
-& = \_i ( J\_i \* \_i ) \_i = \_i J\_i \* \_i\^2\
-& = \_i J\_i \* \_i = J []{#eqn:dldetad label="eqn:dldetad"}\
-& = + J []{#eqn:ddtdldetad label="eqn:ddtdldetad"}
-:::
+$$\begin{aligned}
+    \frac{\partial L}{\partial \boldsymbol{\eta}} & = 
+    \frac{1}{2}\frac{\partial }{\partial \boldsymbol{\eta}} \left( \dot{\boldsymbol{\eta}}^T J \right) \dot{\boldsymbol{\eta}} 
+    \label{eqn:dldeta} \\
+    \frac{\partial L}{\partial \dot{\boldsymbol{\eta}}}
+    & = \frac{1}{2}\frac{\partial }{\partial \dot{\boldsymbol{\eta}}} \left( \dot{\boldsymbol{\eta}}^T J \dot{\boldsymbol{\eta}} \right) \nonumber
+    = \frac{1}{2}\frac{\partial }{\partial \dot{\boldsymbol{\eta}}} \left( J \dot{\boldsymbol{\eta}} \cdot \dot{\boldsymbol{\eta}} \right) \\
+    & = \frac{1}{2}\frac{\partial }{\partial \dot{\boldsymbol{\eta}}} \sum_i \left( J_{i *} \eta_i \right) \eta_i
+    = \frac{1}{2}\sum_i J_{i *} \frac{\partial }{\partial \dot{\boldsymbol{\eta}}} \eta_i^2 \nonumber \\
+    & = \sum_i J_{i *} \eta_i = J \dot{\boldsymbol{\eta}} 
+    \label{eqn:dldetad} \\
+    \frac{d }{d t}\frac{\partial L}{\partial \dot{\boldsymbol{\eta}}} & = \dot{J} \dot{\boldsymbol{\eta}} + J \ddot{\boldsymbol{\eta}}
+    \label{eqn:ddtdldetad}
+\end{aligned}$$
 
 Equation [\[eqn:dldeta\]](#eqn:dldeta){reference-type="ref"
 reference="eqn:dldeta"} is the most complicated expression; it is a 3x3
@@ -381,13 +386,21 @@ $J \dot{\boldsymbol{\eta}}$.
 The equation of rotational motion can also be determined using the
 Euler-Lagrange Equation:
 
-::: flalign
-\- & =\
-+ J + ( \^T J ) & =\
-J + \_C(, ) & =\
-J + C(, ) & =\
-& = J\^-1 ( - C(, ) )\
-:::
+$$\begin{aligned}
+    \frac{d }{d t}\frac{\partial L}{\partial \dot{\boldsymbol{\eta}}} - \frac{\partial L}{\partial \boldsymbol{\eta}} & = \boldsymbol{\tau}\\
+    \dot{J} \dot{\boldsymbol{\eta}} + J \ddot{\boldsymbol{\eta}} + 
+    \frac{1}{2}\frac{\partial }{\partial \dot{\boldsymbol{\eta}}} \left( \dot{\boldsymbol{\eta}}^T J \right) \dot{\boldsymbol{\eta}}
+    & = \boldsymbol{\tau}\\
+    J \ddot{\boldsymbol{\eta}} + \underbrace{
+    \left( \dot{J} +\frac{1}{2}\frac{\partial }{\partial \dot{\boldsymbol{\eta}}} \left( \dot{\boldsymbol{\eta}}^T J \right) \right)}
+    _{\equiv C(\boldsymbol{\eta}, \dot{\boldsymbol{\eta}})}
+    \dot{\boldsymbol{\eta}}
+    & = \boldsymbol{\tau}\\
+    J \ddot{\boldsymbol{\eta}} + C(\boldsymbol{\eta}, \dot{\boldsymbol{\eta}}) \dot{\boldsymbol{\eta}}
+    & = \boldsymbol{\tau}\\
+    \ddot{\boldsymbol{\eta}} & = 
+    J^{-1} \left( \boldsymbol{\tau}- C(\boldsymbol{\eta}, \dot{\boldsymbol{\eta}}) \dot{\boldsymbol{\eta}} \right) \\
+\end{aligned}$$
 
 Here, the Jacobian matrix previously discussed as well as the
 time-derivative of $J$ are combined into the Coriolis matrix
@@ -411,11 +424,11 @@ $\dot{\boldsymbol{\eta}}$ as an input and outputs the angular velocity
 of each propeller $\omega_i$. The controller is defined as follows
 [@gibiansky2012andrew]:
 
-::: flalign
-& = \^c - =\
-& = k_p + k_i \_0\^t dt + k_d\
-& = k_p + k_i \_0\^t dt + k_d
-:::
+$$\begin{aligned}
+    \boldsymbol{e}& = \boldsymbol{\eta}^c - \boldsymbol{\eta}= \boldsymbol{\eta}\\
+    \boldsymbol{u}& = k_p \boldsymbol{e}+ k_i \int_0^t \boldsymbol{e}dt + k_d \frac{d }{d t}\boldsymbol{e}\\
+    & = k_p \boldsymbol{\eta}+ k_i \int_0^t \boldsymbol{\eta}dt + k_d \dot{\boldsymbol{\eta}}
+\end{aligned}$$
 
 The controller generates a torque about the center of mass of the
 quadcopter, which is described in Equation
@@ -425,15 +438,13 @@ Coriolis matrix (which is not an unreasonable approximation; it is
 composed of nearly all higher-order terms) then we have the following
 equation for the controller:
 
-::: flalign
-::: pmatrix
-kl (\_1 - \_3)\
-kl (\_2 - \_4)\
-b (\_1 - \_2 + \_3 - \_4)
-:::
-
-= J
-:::
+$$\begin{aligned}
+    \begin{pmatrix}
+        kl (\gamma_1 - \gamma_3) \\ kl (\gamma_2 - \gamma_4) \\ 
+        b (\gamma_1 - \gamma_2 + \gamma_3 - \gamma_4) 
+    \end{pmatrix} =
+    J \boldsymbol{u}
+\end{aligned}$$
 
 However, this is a system of 4 unknowns and only 3 equations. If we
 further constrain the sum of generated forces to keep the quadrotor
@@ -444,52 +455,25 @@ $T = \frac{mg}{\text{c}_{\theta} \text{c}_{\phi}}$ in the body frame.
 This leads to the following system of equations (Let
 $J \boldsymbol{u}= \boldsymbol{j}$, $\boldsymbol{j}_i = j_i$):
 
-::: flalign
-::: pmatrix
-kl (\_1 - \_3)\
-kl (\_2 - \_4)\
-b (\_1 - \_2 + \_3 - \_4)\
-k (\_1 + \_2 + \_3 + \_4)
-:::
-
-=
-
-::: pmatrix
-j_1\
-j_2\
-j_3\
-T
-:::
-:::
+$$\begin{aligned}
+    \begin{pmatrix}
+        kl (\gamma_1 - \gamma_3) \\ kl (\gamma_2 - \gamma_4) \\ 
+        b (\gamma_1 - \gamma_2 + \gamma_3 - \gamma_4) \\
+        k (\gamma_1 + \gamma_2 + \gamma_3 + \gamma_4)
+    \end{pmatrix} =
+    \begin{pmatrix} j_1 \\ j_2 \\ j_3 \\ T \end{pmatrix}
+\end{aligned}$$
 
 This system has the following solution:
 
-::: flalign
-::: pmatrix
-\_1\
-\_2\
-\_3\
-\_4
-:::
-
-= +
-
-::: pmatrix
--j_1\
--j_2\
-j_2\
-j_2
-:::
-
-\+
-
-::: pmatrix
--j_3\
-j_3\
--j_3\
-j_3
-:::
-:::
+$$\begin{aligned}
+    \begin{pmatrix} \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \end{pmatrix} =
+    \frac{T}{4k} + 
+    \frac{1}{2 k l}
+    \begin{pmatrix} -j_1 \\ -j_2 \\ j_2 \\ j_2 \end{pmatrix} +
+    \frac{1}{4 b}
+    \begin{pmatrix} -j_3 \\ j_3 \\ -j_3 \\ j_3 \end{pmatrix}
+\end{aligned}$$
 
 # Simulations
 

@@ -246,17 +246,17 @@ Thus, the matrix $W_\seta$ can be derived, which transforms the time-derivative 
 
 Along with the Euler-angle representation, I will consider the Cartesian coordinates of the center of mass of the drone as generalized coordinates to represent translations of the body frame:
 
-\begin{flalign}
+\begin{align}
     \sxi =  \begin{pmatrix} x & y & z \end{pmatrix}^T
     , \quad
     \dot{\sxi} =  \begin{pmatrix} \dot{x} & \dot{y} & \dot{z} \end{pmatrix}^T
-\end{flalign}
+\end{align}
 
 Thus, the following generalized coordinates together define a 6-degree-of-freedom dynamical system with the state $\sq$:
 
-\begin{flalign}
+\begin{align}
     \sq = \begin{pmatrix} \sxi \\ \seta \end{pmatrix}
-\end{flalign}
+\end{align}
 
 \newpage
 \section{Dynamics}
@@ -265,13 +265,13 @@ Thus, the following generalized coordinates together define a 6-degree-of-freedo
 
 The Lagrangian $L$ is defined as:
 
-\begin{flalign}
+\begin{align}
     L (\sq, \dot{\sq}) & = T - V 
-\end{flalign}
+\end{align}
 
 This system is nearly identical to rigid body free rotation; however the Lagrangian has nonzero potential energy since the quadcopter is subject to gravity. As we have shown in class, the kinetic energy in this case is the same as in free rigid body rotation:
 
-\begin{flalign}
+\begin{align}
     T & = 
     \underbrace{\half \sOmega^T I \sOmega}
     _{\substack{\text{Rotational kinetic} \\ \text{energy}}} + 
@@ -284,11 +284,11 @@ This system is nearly identical to rigid body free rotation; however the Lagrang
     & =
     \half \dot{\seta}^T J(\seta) \dot{\seta} +
     \half m \dot{\sxi}^T \dot{\sxi}
-\end{flalign}
+\end{align}
 
 % Thus, the following are derivatives of $T$:
 
-% \begin{flalign}
+% \begin{align}
 %     \pp{T}{\seta} 
 %     & = 
 %     \pp{}{\seta} \half \dot{\seta}^T \left( J (\seta) + m \right) \dot{\seta} \\
@@ -296,28 +296,28 @@ This system is nearly identical to rigid body free rotation; however the Lagrang
 %     \half \dot{\seta}^T \left( \pp{}{\seta} J (\seta) \right) \dot{\seta} \\
 %     & = 
 %     \half \dot{\seta}^T \left( \pp{}{\seta} \left( \sW^T I \sW \right) \right) \dot{\seta}
-% \end{flalign}
+% \end{align}
 
-% \begin{flalign}
+% \begin{align}
 %     \pp{}{\seta} \left( \sW^T I \sW \right) & =
 %     \pp{}{\seta} \left( \sW^T \right) I \sW +
 %     \sW^T I \pp{}{\seta} \left( \sW \right)
-% \end{flalign}
+% \end{align}
 
 And the potential energy can be determined from these coordinates in the standard way using the gravitational potential:
 
-\begin{flalign}
+\begin{align}
     V & = m g z = m g (\sxi \cdot \bar{e}_3)
-\end{flalign}
+\end{align}
 
 Thus, the entire Lagrangian is given by:
 
-\begin{flalign}
+\begin{align}
     L(\sq, \dot{\sq}) & = 
     \half \dot{\seta}^T J(\seta) \dot{\seta} +
     \half m \dot{\sxi}^T \dot{\sxi} -
     m g (\sxi \cdot \bar{e}_3)
-\end{flalign}
+\end{align}
 
 \subsection{Translations}
 
@@ -335,17 +335,17 @@ These results lead to the following equation of motion for the translation dynam
 
 \newcommand{\sQ}{\boldsymbol{Q}}
 
-\begin{flalign}
+\begin{align}
     \ddt \pp{L}{\dot{\sxi}} - \pp{L}{\sxi} & = \sforce \\
     m \ddot{\sxi} + m g \bar{e}_3 & = \sforce \\
     \ddot{\sxi} & = \frac{1}{m} \left( \sforce - mg \bar{e}_3 \right)
-\end{flalign}
+\end{align}
 
 \subsection{Rotations}
 
 The derivatives of $L(\seta, \dot{\seta})$, however, are more difficult to determine as they are higher-dimensional:
 
-\begin{flalign}
+\begin{align}
     \pp{L}{\seta} & = 
     \half \pp{}{\seta} \left( \dot{\seta}^T J \right) \dot{\seta} 
     \label{eqn:dldeta} \\
@@ -358,13 +358,13 @@ The derivatives of $L(\seta, \dot{\seta})$, however, are more difficult to deter
     \label{eqn:dldetad} \\
     \ddt \pp{L}{\dot{\seta}} & = \dot{J} \dot{\seta} + J \ddot{\seta}
     \label{eqn:ddtdldetad}
-\end{flalign}
+\end{align}
 
 Equation \ref{eqn:dldeta} is the most complicated expression; it is a 3x3 Jacobian matrix, the derivative of a vector $\dot{\seta}^T J$ with respect to a vector $\seta$. What makes this expression difficult to compute, however, are the large amount of terms that come out of the derivative given that $J = \sW^T I \sW$. A full definition of this variable is given in the appendix section \ref{app:coriolis}. Equation \ref{eqn:dldetad}, however, is more like a normal derivative; the product rule can be used to split the derivative into a sum of dot products and then computed using a summation, eventually leading to the definition of matrix multiplication which yields $J \dot{\seta}$.
 
 The equation of rotational motion can also be determined using the Euler-Lagrange Equation:
 
-\begin{flalign}
+\begin{align}
     \ddt \pp{L}{\dot{\seta}} - \pp{L}{\seta} & = \stau \\
     \dot{J} \dot{\seta} + J \ddot{\seta} + 
     \half \pp{}{\dot{\seta}} \left( \dot{\seta}^T J \right) \dot{\seta}
@@ -378,7 +378,7 @@ The equation of rotational motion can also be determined using the Euler-Lagrang
     & = \stau \\
     \ddot{\seta} & = 
     J^{-1} \left( \stau - C(\seta, \dot{\seta}) \dot{\seta} \right) \\
-\end{flalign}
+\end{align}
 
 Here, the Jacobian matrix previously discussed as well as the time-derivative of $J$ are combined into the Coriolis matrix $C(\seta, \dot{\seta})$. The complete equations of motion of the quadrotor are thereby given by the following system:
 
@@ -392,10 +392,10 @@ Here, the Jacobian matrix previously discussed as well as the time-derivative of
 
 % Lagrange's Equation is given by:
 % 
-% \begin{flalign}
+% \begin{align}
 %     \ddt \dd{L}{\dot{\sq}} - \dd{L}{\sq} & = \boldsymbol{Q} \\
 %     \dd{L}{\sq} & = 
-% \end{flalign}
+% \end{align}
 
 \newpage
 \section{Controls}
@@ -406,45 +406,45 @@ Here, the Jacobian matrix previously discussed as well as the time-derivative of
 
 In order to better test the simulation of the dynamics, it will be useful to first derive a simple PID controller to stabilize the drone horizontally, i.e., $\seta, \dot{\seta} \rightarrow 0$. To do this, I will consider a controller $\su$ which takes $\dot{\seta}$ as an input and outputs the angular velocity of each propeller $\omega_i$. The controller is defined as follows \cite{gibiansky2012andrew}:
 
-\begin{flalign}
+\begin{align}
     \se & = \seta^c - \seta = \seta \\
     \su & = k_p \se + k_i \int_0^t \se dt + k_d \ddt \se \\
     & = k_p \seta + k_i \int_0^t \seta dt + k_d \dot{\seta}
-\end{flalign}
+\end{align}
 
 The controller generates a torque about the center of mass of the quadcopter, which is described in Equation \ref{eqn:torque} (Let $\gamma_i = \omega_i^2$). If we ignore the Coriolis matrix (which is not an unreasonable approximation; it is composed of nearly all higher-order terms) then we have the following equation for the controller:
 
-\begin{flalign}
+\begin{align}
     \begin{pmatrix}
         kl (\gamma_1 - \gamma_3) \\ kl (\gamma_2 - \gamma_4) \\ 
         b (\gamma_1 - \gamma_2 + \gamma_3 - \gamma_4) 
     \end{pmatrix} =
     J \su
-\end{flalign}
+\end{align}
 
 \newcommand{\sj}{\boldsymbol{j}}
 
 However, this is a system of 4 unknowns and only 3 equations. If we further constrain the sum of generated forces to keep the quadrotor hovering, i.e., $\sforce_3 = mg \bar{e}_3$, then we have an additional constraint. Note, in order to generate this force in the inertial frame, the drone must generate a force $T = \frac{mg}{\cos{\theta} \cos{\phi}}$ in the body frame. This leads to the following system of equations (Let $J \su = \sj$, $\sj_i = j_i$):
 
-\begin{flalign}
+\begin{align}
     \begin{pmatrix}
         kl (\gamma_1 - \gamma_3) \\ kl (\gamma_2 - \gamma_4) \\ 
         b (\gamma_1 - \gamma_2 + \gamma_3 - \gamma_4) \\
         k (\gamma_1 + \gamma_2 + \gamma_3 + \gamma_4)
     \end{pmatrix} =
     \begin{pmatrix} j_1 \\ j_2 \\ j_3 \\ T \end{pmatrix}
-\end{flalign}
+\end{align}
 
 This system has the following solution:
 
-\begin{flalign}
+\begin{align}
     \begin{pmatrix} \gamma_1 \\ \gamma_2 \\ \gamma_3 \\ \gamma_4 \end{pmatrix} =
     \frac{T}{4k} + 
     \frac{1}{2 k l}
     \begin{pmatrix} -j_1 \\ -j_2 \\ j_2 \\ j_2 \end{pmatrix} +
     \frac{1}{4 b}
     \begin{pmatrix} -j_3 \\ j_3 \\ -j_3 \\ j_3 \end{pmatrix}
-\end{flalign}
+\end{align}
 
 \newpage
 \section{Simulations}
