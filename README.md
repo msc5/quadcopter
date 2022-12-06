@@ -1,1 +1,1 @@
-# attitudes
+# Quadcopter Dynamics and Control
